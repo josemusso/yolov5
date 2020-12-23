@@ -20,7 +20,7 @@ class YamlParser(edict):
         super(YamlParser, self).__init__(cfg_dict)
 
     def merge_from_file(self, config_file):
-        with open(config_file, 'r') as fo:
+        with open('yolov5/'+config_file, 'r') as fo:
             self.update(yaml.load(fo.read()))
 
     def merge_from_dict(self, config_dict):

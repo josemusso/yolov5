@@ -17,6 +17,8 @@ from utils.torch_utils import select_device, load_classifier, time_synchronized
 from deep_sort_pytorch.utils.parser import get_config
 from deep_sort_pytorch.deep_sort import DeepSort
 
+palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
+
 def bbox_rel(*xyxy):
     """" Calculates the relative bounding box from absolute pixel values. """
     bbox_left = min([xyxy[0].item(), xyxy[2].item()])
@@ -28,6 +30,13 @@ def bbox_rel(*xyxy):
     w = bbox_w
     h = bbox_h
     return x_c, y_c, w, h
+
+def compute_color_for_labels(label):
+    """
+    Simple function that adds fixed color depending on the class
+    """
+    color = [int((p * (label ** 2 - label + 1)) % 255) for p in palette]
+    return tuple(color)
 
 def draw_boxes(img, bbox, identities=None, offset=(0, 0)):
     for i, box in enumerate(bbox):
